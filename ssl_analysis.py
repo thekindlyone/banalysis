@@ -7,9 +7,8 @@ import csv
 import sys
 
 
-# domains=[part for part in open('dump.txt').read().split() if len(part)>5]
 
-domains=[domain.strip() for domain in open('ssl_enabled.txt').read.split()]
+# domains=[domain.strip() for domain in open('ssl_enabled.txt').read.split()]
 
 def test_url(url):
     def check_ban(url):
@@ -31,15 +30,22 @@ def test_url(url):
     print '\n**********************\nDomain: {}\nhttp: {}\nhttps: {}\n**************************\n'.format(*rv)
     return rv
 
-p=Pool(cpu_count()*2)
-try:
-    results=p.map(test_url, domains)
-except:
-    sys.exit(1)
 
-headers=['Domain','HTTP','HTTPS']
 
-with open('report_ssl.csv','w') as csvfile:
-    writer=csv.writer(csvfile,dialect='excel')
-    writer.writerow(headers)
-    writer.writerows(results)
+def main():
+    domains=[part for part in open('dump.txt').read().split() if len(part)>5]
+    p=Pool(cpu_count()*2)
+    try:
+        results=p.map(test_url, domains)
+    except:
+        sys.exit(1)
+
+    headers=['Domain','HTTP','HTTPS']
+
+    with open('report_ssl.csv','w') as csvfile:
+        writer=csv.writer(csvfile,dialect='excel')
+        writer.writerow(headers)
+        writer.writerows(results)
+
+if __name__ == '__main__':
+    main()
