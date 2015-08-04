@@ -5,7 +5,7 @@ from multiprocessing import Pool, cpu_count, freeze_support
 import re
 import csv
 import sys
-
+from domains import *
 
 
 # domains=[domain.strip() for domain in open('ssl_enabled.txt').read.split()]
@@ -34,8 +34,8 @@ def test_url(url):
 
 def main():
     freeze_support()
-    domains=[part for part in open('dump.txt').read().split() if len(part)>5]
-    p=Pool(cpu_count()*2)
+    # domains=[part for part in open('dump.txt').read().split() if len(part)>5]
+    p=Pool(cpu_count()*3)
     try:
         results=p.map(test_url, domains)
     except:
